@@ -1,38 +1,244 @@
-.App {
-  text-align: center;
+/* Define the YouTube color scheme */
+:root {
+  --youtube-red: #ff0000;
+  --youtube-black: #282828;
+  --youtube-white: #fff;
+  --youtube-gray: #999;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: var(--youtube-black);
+  font-family: "Roboto", sans-serif;
+  color: var(--youtube-white);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* LANDING-PAGE */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.landing-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-family: "Roboto", sans-serif;
+  margin: 20px;
+}
+
+.landing-header {
+  border-bottom: 3px solid var(--youtube-red);
+}
+
+.landing-page h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.landing-page p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  margin: 20px;
+}
+
+.landing-page button {
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  background-color: #4285f4;
+  color: var(--youtube-white);
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9 !important;
+}
+
+.landing-page button:hover {
+  opacity: 0.8 !important;
+}
+
+li::marker {
+  color: var(--youtube-gray);
+  font-size: x-large;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.dashboard h1 {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.dashboard p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-container img {
+  align-self: flex-start;
+}
+
+.flex-container p {
+  align-self: center;
+}
+
+.video-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.video-list-item {
+  position: relative;
+  width: 100%;
+  margin: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  margin-right: 50px;
+  margin-left: 50px;
+  border: 1px solid var(--youtube-gray);
+  padding: 1rem;
+  max-width: 850px;
+}
+
+.video-list-item img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.video-list-item p {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 10px;
+  padding-left: 4rem;
+  background: var(--youtube-black);
   color: white;
+  font-size: 1rem;
+  text-align: left;
+  border-radius: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.selected-video {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.selected-video img {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.selected-video button {
+  padding: 10px 20px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.selected-video button:hover {
+  background-color: #357ae8;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 50px;
+  background-color: var(--youtube-black);
+  border: 2px solid var(--youtube-gray);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  outline: none;
+  color: var(--youtube-white);
+  background-color: var(--youtube-black);
+}
+
+.search-bar button {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  background-color: var(--youtube-gray);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Style the dropdown container */
+.sort-container {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  padding-top: 1rem;
+}
+
+/* Style the dropdown button */
+.sort-container button {
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px 16px;
+}
+
+/* Style the dropdown menu */
+.sort-container .sort-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Show the dropdown menu on hover */
+.sort-container:hover .sort-dropdown {
+  display: block;
+}
+
+/* Style the dropdown options */
+.sort-container .sort-dropdown a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color on hover */
+.sort-container .sort-dropdown a:hover {
+  background-color: #f1f1f1;
 }
