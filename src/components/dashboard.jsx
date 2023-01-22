@@ -14,7 +14,7 @@ const Dashboard = () => {
     axios
       .get("https://www.googleapis.com/youtube/v3/videos", {
         params: {
-          part: "snippet",
+          part: "snippet, statistics",
           chart: "mostPopular",
           maxResults: 10,
           key: process.env.REACT_APP_YOUTUBE_API_KEY,
@@ -67,6 +67,34 @@ const Dashboard = () => {
     setVideos(sortedVideos);
   };
 
+  const formatViews = (views) => {
+    if (views >= 1e12) {
+      return `${(views / 1e12).toFixed(2)}T`;
+    } else if (views >= 1e9) {
+      return `${(views / 1e9).toFixed(2)}B`;
+    } else if (views >= 1e6) {
+      return `${(views / 1e6).toFixed(2)}M`;
+    } else if (views >= 1e3) {
+      return `${(views / 1e3).toFixed(2)}K`;
+    } else {
+      return views;
+    }
+  };
+
+  const formatLikes = (likes) => {
+    if (likes >= 1e12) {
+      return `${(likes / 1e12).toFixed(2)}T`;
+    } else if (likes >= 1e9) {
+      return `${(likes / 1e9).toFixed(2)}B`;
+    } else if (likes >= 1e6) {
+      return `${(likes / 1e6).toFixed(2)}M`;
+    } else if (likes >= 1e3) {
+      return `${(likes / 1e3).toFixed(2)}K`;
+    } else {
+      return likes;
+    }
+  };
+
   return (
     <div className="dashboard">
       <h1>Welcome to your Dashboard</h1>
@@ -102,7 +130,15 @@ const Dashboard = () => {
                 src={video.snippet.thumbnails.medium.url}
                 alt={video.snippet.title}
               />
-              <p>{video.snippet.title}</p>
+              <div className="item-metrics">
+                <p className="video-title">{video.snippet.title}</p>
+                <p className="video-stats">
+                  Views: {formatViews(video.statistics.viewCount)}
+                </p>
+                <p className="video-stats">
+                  Likes: {formatLikes(video.statistics.likeCount)}
+                </p>
+              </div>
             </div>
           </div>
         ))}
