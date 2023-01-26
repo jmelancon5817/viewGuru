@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Gallery } from "react-grid-gallery";
 import { useNavigate, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSync } from "@fortawesome/free-solid-svg-icons";
+import Process from "./process";
+import Upload from "./upload";
 
 const Optimize = () => {
   const location = useLocation();
   const selectedVideo = location.state.selectedVideo;
-
   const [currentThumbnail, setCurrentThumbnail] = useState(
     selectedVideo.snippet.thumbnails.medium.url
   );
   const [alternateThumbnails, setAlternateThumbnails] = useState([]);
   const [updateThumbnail, setUpdateThumbnail] = useState(false);
+
+  const [isRunning, setIsRunning] = useState(false);
 
   const handleChange = (e) => {
     const files = e.target.files;
@@ -22,12 +27,14 @@ const Optimize = () => {
     setAlternateThumbnails(thumbnails);
   };
 
-  const handleUpdate = () => {
+  const handleSubmit = () => {
     setUpdateThumbnail(true);
+    setIsRunning(true);
   };
 
   const handleCancel = () => {
     // Stop Optimization
+    setIsRunning(false);
   };
 
   useEffect(() => {
@@ -39,37 +46,11 @@ const Optimize = () => {
 
   return (
     <div className="optimize-container">
-      <h1>Initialize Optimization</h1>
-      <div className="current">
-        <p>Current Thumbnail:</p>
-        <img
-          src={currentThumbnail}
-          alt={selectedVideo.snippet.title}
-          className="current-thumbnail"
-        />
-      </div>
-      <div>
-        <p className="alternate-heading">Alternate Thumbnails:</p>
-        <div className="optimize-gallery">
-          <input
-            type="file"
-            multiple
-            onChange={handleChange}
-            className="optimize-input"
-          />
-          <Gallery
-            images={alternateThumbnails.map((thumbnail) => ({
-              src: thumbnail,
-            }))}
-            margin={12}
-            rowHeight={300}
-          />
-        </div>
-      </div>
-      <div className="optimize-buttons">
-        <button onClick={handleUpdate}>Submit</button>
-        <button onClick={handleCancel}>Cancel</button>
-      </div>
+      {isRunning ? (
+        <Process handleCancel={handleCancel} />
+      ) : (
+        <Upload handleSubmit={handleSubmit} />
+      )}
     </div>
   );
 };
