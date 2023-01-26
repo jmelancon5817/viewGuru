@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
+import Process from "./process";
 
 const Upload = (props) => {
   const location = useLocation();
@@ -14,15 +15,6 @@ const Upload = (props) => {
   const [updateThumbnail, setUpdateThumbnail] = useState(false);
 
   const [isRunning, setIsRunning] = useState(false);
-
-  const handleChange = (e) => {
-    const files = e.target.files;
-    const thumbnails = [...alternateThumbnails];
-    for (let i = 0; i < files.length; i++) {
-      thumbnails.push(URL.createObjectURL(files[i]));
-    }
-    setAlternateThumbnails(thumbnails);
-  };
 
   useEffect(() => {
     if (updateThumbnail) {
@@ -51,7 +43,7 @@ const Upload = (props) => {
               <input
                 type="file"
                 multiple
-                onChange={handleChange}
+                onChange={props.handleChange}
                 className="optimize-input"
               />
             </div>
@@ -65,7 +57,7 @@ const Upload = (props) => {
               <input
                 type="file"
                 multiple
-                onChange={handleChange}
+                onChange={props.handleChange}
                 className="optimize-input"
               />
             </div>

@@ -47,9 +47,12 @@ const Optimize = () => {
   return (
     <div className="optimize-container">
       {isRunning ? (
-        <Process handleCancel={handleCancel} />
+        <Process
+          handleCancel={handleCancel}
+          alternateThumbnails={alternateThumbnails}
+        />
       ) : (
-        <Upload handleSubmit={handleSubmit} />
+        <Upload handleSubmit={handleSubmit} handleChange={handleChange} />
       )}
     </div>
   );

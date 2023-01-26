@@ -15,15 +15,6 @@ const Process = (props) => {
 
   const [isRunning, setIsRunning] = useState(false);
 
-  const handleChange = (e) => {
-    const files = e.target.files;
-    const thumbnails = [...alternateThumbnails];
-    for (let i = 0; i < files.length; i++) {
-      thumbnails.push(URL.createObjectURL(files[i]));
-    }
-    setAlternateThumbnails(thumbnails);
-  };
-
   useEffect(() => {
     if (updateThumbnail) {
       // Use the YouTube API to track view count of the video over time
@@ -48,12 +39,7 @@ const Process = (props) => {
           <p className="alternate-heading">Alternate Thumbnail 1:</p>
           <div className="optimize-gallery">
             <div className="alternateImage1">
-              <input
-                type="file"
-                multiple
-                onChange={handleChange}
-                className="optimize-input"
-              />
+              <img src={props.alternateThumbnails[0]} alt="alternate1" />
             </div>
           </div>
         </div>
@@ -62,12 +48,7 @@ const Process = (props) => {
           <p className="alternate-heading">Alternate Thumbnail 2:</p>
           <div className="optimize-gallery">
             <div className="alternateImage1">
-              <input
-                type="file"
-                multiple
-                onChange={handleChange}
-                className="optimize-input"
-              />
+              <img src={props.alternateThumbnails[1]} alt="alternate2" />
             </div>
           </div>
         </div>
