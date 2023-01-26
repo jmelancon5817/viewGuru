@@ -2,12 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
+import { use } from "chai";
+import Optimize from "./optimize";
 
 const Dashboard = () => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortType, setSortType] = useState("recent");
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState([]);
+  const itemsPerPage = 5;
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the top 10 trending videos from YouTubes's API
@@ -16,7 +25,7 @@ const Dashboard = () => {
         params: {
           part: "snippet, statistics",
           chart: "mostPopular",
-          maxResults: 10,
+          maxResults: 20,
           key: process.env.REACT_APP_YOUTUBE_API_KEY,
         },
       })
@@ -28,8 +37,15 @@ const Dashboard = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(videos.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(videos.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, videos]);
+
   const handleVideoSelect = (video) => {
     setSelectedVideo(video);
+    navigate("/optimize", { state: { selectedVideo: video } });
   };
 
   const handleSearchChange = (event) => {
@@ -65,6 +81,7 @@ const Dashboard = () => {
       });
     }
     setVideos(sortedVideos);
+    setCurrentItems(sortedVideos);
   };
 
   const formatViews = (views) => {
@@ -95,6 +112,11 @@ const Dashboard = () => {
     }
   };
 
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % videos.length;
+    setItemOffset(newOffset);
+  };
+
   return (
     <div className="dashboard">
       <h1>Welcome to your Dashboard</h1>
@@ -119,12 +141,8 @@ const Dashboard = () => {
         </select>
       </div>
       <div className="video-list">
-        {videos.map((video) => (
-          <div
-            className="video-list-item"
-            key={video.id}
-            onClick={() => handleVideoSelect(video)}
-          >
+        {currentItems.map((video) => (
+          <div className="video-list-item" key={video.id}>
             <div className="flex-container">
               <img
                 src={video.snippet.thumbnails.medium.url}
@@ -138,12 +156,21 @@ const Dashboard = () => {
                 <p className="video-stats">
                   Likes: {formatLikes(video.statistics.likeCount)}
                 </p>
+                <button
+                  onClick={() => {
+                    handleVideoSelect(video);
+                  }}
+                  className="video-select"
+                >
+                  Select
+                </button>
               </div>
             </div>
           </div>
         ))}
       </div>
-      {selectedVideo && (
+
+      {/* {selectedVideo && (
         <div className="selected-video">
           <h2>{selectedVideo.snippet.title}</h2>
           <img
@@ -152,7 +179,26 @@ const Dashboard = () => {
           />
           <button>Optimize Thumbnail</button>
         </div>
-      )}
+      )} */}
+
+      {
+        <ReactPaginate
+          previousLabel={"prev"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          pageLinkClassName={"page-num"}
+          previousLinkClassName={"page-num"}
+          nextLinkClassName={"page-num"}
+          activeLinkClassName={"active"}
+          renderOnZeroPageCount={null}
+        />
+      }
     </div>
   );
 };
