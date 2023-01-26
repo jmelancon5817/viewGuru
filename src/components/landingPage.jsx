@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import GoogleLogin from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -24,39 +25,43 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="landing-page">
-      <div className="landing-header">
-        <h1>Welcome to ViewGuru</h1>
-      </div>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <div className="landing-page">
+        <div className="landing-header">
+          <h1>Welcome to ViewGuru</h1>
+        </div>
 
-      <br></br>
-      <br></br>
-      <ul>
-        <li>
-          <p>
-            ViewGuru is a tool that allows you to optimize your YouTube video
-            thumbnails based on your video's view count metrics.
-          </p>
-        </li>
-        <li>
-          <p>
-            With ViewGuru, you can easily track your video views, and update
-            your video thumbnails for maximum engagement and visibility.{" "}
-          </p>
-        </li>
-      </ul>
-      <p>Sign in with your google account to get started. </p>
-      {isLoggedIn ? (
-        <button onClick={() => navigate("/dashboard")}>Go to Dashboard</button>
-      ) : (
-        <GoogleLogin
-          clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          buttonText="Sign in with Google"
-          onSuccess={handleLoginSuccess}
-          onFailure={handleLoginFailure}
-        />
-      )}
-    </div>
+        <br></br>
+        <br></br>
+        <ul>
+          <li>
+            <p>
+              Thrive is a tool that allows you to optimize your YouTube video
+              thumbnails based on your video's view count metrics.
+            </p>
+          </li>
+          <li>
+            <p>
+              With Thrive, you can easily track your video views, and update
+              your video thumbnails for maximum engagement and visibility.{" "}
+            </p>
+          </li>
+        </ul>
+        <p>Sign in with your google account to get started. </p>
+        {isLoggedIn ? (
+          <button onClick={() => navigate("/dashboard")}>
+            Go to Dashboard
+          </button>
+        ) : (
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="Sign in with Google"
+            onSuccess={handleLoginSuccess}
+            onFailure={handleLoginFailure}
+          />
+        )}
+      </div>
+    </GoogleOAuthProvider>
   );
 };
 
