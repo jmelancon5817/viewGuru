@@ -4,10 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
-import { use } from "chai";
-import Optimize from "./optimize";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const Dashboard = () => {
+const Dashboard = ({ setIsLoggedIn }) => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -117,89 +116,100 @@ const Dashboard = () => {
     setItemOffset(newOffset);
   };
 
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("user");
+      setIsLoggedIn(false);
+      navigate("/landingPage");
+    } catch (error) {
+      handleLogoutFailure(error);
+    }
+  };
+
+  const handleLogoutFailure = (error) => {
+    console.log(error);
+  };
+
   return (
-    <div className="dashboard">
-      <h1>Welcome to your Dashboard</h1>
-      <p>Select a video to optimize</p>
-      <div className="search-container search-bar">
-        <input
-          className="search-bar-input"
-          type="text"
-          placeholder="Search"
-          onChange={handleSearchChange}
-        />
-        <button className="search-bar button" onClick={handleSearchSubmit}>
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
-      </div>
-      <div className="sort-container">
-        <label>Sort by: </label>
-        <select value={sortType} onChange={handleSort}>
-          <option value="recent">Most Recent</option>
-          <option value="highest-views">Highest Views</option>
-          <option value="lowest-views">Lowest Views</option>
-        </select>
-      </div>
-      <div className="video-list">
-        {currentItems.map((video) => (
-          <div className="video-list-item" key={video.id}>
-            <div className="flex-container">
-              <img
-                src={video.snippet.thumbnails.medium.url}
-                alt={video.snippet.title}
-              />
-              <div className="item-metrics">
-                <p className="video-title">{video.snippet.title}</p>
-                <p className="video-stats">
-                  Views: {formatViews(video.statistics.viewCount)}
-                </p>
-                <p className="video-stats">
-                  Likes: {formatLikes(video.statistics.likeCount)}
-                </p>
-                <button
-                  onClick={() => {
-                    handleVideoSelect(video);
-                  }}
-                  className="video-select"
-                >
-                  Select
-                </button>
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+      <div className="dashboard">
+        <h1>Welcome to your Dashboard</h1>
+        <p>Select a video to optimize</p>
+        <div className="search-container search-bar">
+          <input
+            className="search-bar-input"
+            type="text"
+            placeholder="Search"
+            onChange={handleSearchChange}
+          />
+          <button className="search-bar button" onClick={handleSearchSubmit}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+        </div>
+        <div className="sort-container">
+          <label>Sort by: </label>
+          <select value={sortType} onChange={handleSort}>
+            <option value="recent">Most Recent</option>
+            <option value="highest-views">Highest Views</option>
+            <option value="lowest-views">Lowest Views</option>
+          </select>
+        </div>
+        <div className="video-list">
+          {currentItems.map((video) => (
+            <div className="video-list-item" key={video.id}>
+              <div className="flex-container">
+                <img
+                  src={video.snippet.thumbnails.medium.url}
+                  alt={video.snippet.title}
+                />
+                <div className="item-metrics">
+                  <p className="video-title">{video.snippet.title}</p>
+                  <p className="video-stats">
+                    Views: {formatViews(video.statistics.viewCount)}
+                  </p>
+                  <p className="video-stats">
+                    Likes: {formatLikes(video.statistics.likeCount)}
+                  </p>
+                  <button
+                    onClick={() => {
+                      handleVideoSelect(video);
+                    }}
+                    className="video-select"
+                  >
+                    Select
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {/* {selectedVideo && (
-        <div className="selected-video">
-          <h2>{selectedVideo.snippet.title}</h2>
-          <img
-            src={selectedVideo.snippet.thumbnails.high.url}
-            alt={selectedVideo.snippet.title}
-          />
-          <button>Optimize Thumbnail</button>
+          ))}
         </div>
-      )} */}
 
-      {
-        <ReactPaginate
-          previousLabel={"prev"}
-          nextLabel={"next"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          pageLinkClassName={"page-num"}
-          previousLinkClassName={"page-num"}
-          nextLinkClassName={"page-num"}
-          activeLinkClassName={"active"}
-          renderOnZeroPageCount={null}
-        />
-      }
-    </div>
+        {
+          <ReactPaginate
+            previousLabel={"prev"}
+            nextLabel={"next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            pageLinkClassName={"page-num"}
+            previousLinkClassName={"page-num"}
+            nextLinkClassName={"page-num"}
+            activeLinkClassName={"active"}
+            renderOnZeroPageCount={null}
+          />
+        }
+
+        {
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
+        }
+      </div>
+    </GoogleOAuthProvider>
   );
 };
 
