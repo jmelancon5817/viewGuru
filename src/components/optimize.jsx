@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Gallery } from "react-grid-gallery";
-import { useNavigate, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSync } from "@fortawesome/free-solid-svg-icons";
+import { useLocation } from "react-router-dom";
 import Process from "./process";
 import Upload from "./upload";
+import axios from "axios";
 
 const Optimize = () => {
   const location = useLocation();
@@ -18,6 +15,11 @@ const Optimize = () => {
 
   const [isRunning, setIsRunning] = useState(false);
 
+  const [thumbnailIDs, setThumbnailIDs] = useState([]);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user.id;
+
   const handleChange = (e) => {
     const files = e.target.files;
     const thumbnails = [...alternateThumbnails];
@@ -27,9 +29,54 @@ const Optimize = () => {
     setAlternateThumbnails(thumbnails);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setUpdateThumbnail(true);
     setIsRunning(true);
+
+    const userId = JSON.parse(localStorage.getItem("user"))._id;
+    console.log(userId);
+
+    const image1 = alternateThumbnails[0];
+    const image2 = alternateThumbnails[1];
+    const formData = new FormData();
+    formData.append("image1", image1);
+    formData.append("image2", image2);
+
+    try {
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+      // console.log(formData);
+      const response = await axios.post(
+        `/api/users/${userId}/thumbnails`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const thumbnailIds = response.data.thumbnailIds;
+
+      setThumbnailIDs(thumbnailIds);
+
+      console.log("Thumbnails uploaded successfully!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (thumbnailId) => {
+    try {
+      const userId = JSON.parse(localStorage.getItem("user"))._id;
+
+      await axios.delete(`/api/users/${userId}/thumbnails/${thumbnailId}`);
+
+      console.log("Thumbnail deleted successfully!");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleCancel = () => {
@@ -52,7 +99,12 @@ const Optimize = () => {
           alternateThumbnails={alternateThumbnails}
         />
       ) : (
-        <Upload handleSubmit={handleSubmit} handleChange={handleChange} />
+        <Upload
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
+          handleDelete={handleDelete}
+          thumbnailIDs={thumbnailIDs}
+        />
       )}
     </div>
   );
