@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
-import Process from "./process";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 const Upload = (props) => {
   const location = useLocation();
@@ -11,10 +10,7 @@ const Upload = (props) => {
   const [currentThumbnail, setCurrentThumbnail] = useState(
     selectedVideo.snippet.thumbnails.medium.url
   );
-  const [alternateThumbnails, setAlternateThumbnails] = useState([]);
   const [updateThumbnail, setUpdateThumbnail] = useState(false);
-
-  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     if (updateThumbnail) {
@@ -39,6 +35,25 @@ const Upload = (props) => {
         <div>
           <p className="alternate-heading">Alternate Thumbnail 1:</p>
           <div className="optimize-gallery">
+            {props.alternateThumbnails[0] ? (
+              <div className="alternateImage">
+                <img src={props.alternateThumbnails[0]} alt="alternate1" />
+              </div>
+            ) : (
+              <div className="alternate-div">
+                <FontAwesomeIcon icon={faImage} className="fa-10x image-icon" />
+              </div>
+            )}
+          </div>
+
+          {props.alternateThumbnails[0] ? (
+            <button
+              className="delete-button"
+              onClick={() => props.handleDelete(props.thumbnailIDs[0])}
+            >
+              Remove Files
+            </button>
+          ) : (
             <div className="alternateImage1">
               <input
                 type="file"
@@ -47,12 +62,30 @@ const Upload = (props) => {
                 className="optimize-input"
               />
             </div>
-          </div>
+          )}
         </div>
 
         <div>
           <p className="alternate-heading">Alternate Thumbnail 2:</p>
           <div className="optimize-gallery">
+            {props.alternateThumbnails[1] ? (
+              <div className="alternateImage">
+                <img src={props.alternateThumbnails[1]} alt="alternate2" />
+              </div>
+            ) : (
+              <div className="alternate-div">
+                <FontAwesomeIcon icon={faImage} className="fa-10x image-icon" />
+              </div>
+            )}
+          </div>
+          {props.alternateThumbnails[1] ? (
+            <button
+              className="delete-button"
+              onClick={() => props.handleDelete(props.thumbnailIDs[1])}
+            >
+              X
+            </button>
+          ) : (
             <div className="alternateImage1">
               <input
                 type="file"
@@ -61,7 +94,7 @@ const Upload = (props) => {
                 className="optimize-input"
               />
             </div>
-          </div>
+          )}
         </div>
       </div>
 
