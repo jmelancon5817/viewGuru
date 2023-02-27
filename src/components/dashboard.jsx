@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
@@ -83,31 +85,17 @@ const Dashboard = ({ setIsLoggedIn }) => {
     setCurrentItems(sortedVideos);
   };
 
-  const formatViews = (views) => {
-    if (views >= 1e12) {
-      return `${(views / 1e12).toFixed(2)}T`;
-    } else if (views >= 1e9) {
-      return `${(views / 1e9).toFixed(2)}B`;
-    } else if (views >= 1e6) {
-      return `${(views / 1e6).toFixed(2)}M`;
-    } else if (views >= 1e3) {
-      return `${(views / 1e3).toFixed(2)}K`;
+  const formatStats = (stats) => {
+    if (stats >= 1e12) {
+      return `${(stats / 1e12).toFixed(2)} T`;
+    } else if (stats >= 1e9) {
+      return `${(stats / 1e9).toFixed(2)} B`;
+    } else if (stats >= 1e6) {
+      return `${(stats / 1e6).toFixed(2)} M`;
+    } else if (stats >= 1e3) {
+      return `${(stats / 1e3).toFixed(2)} K`;
     } else {
-      return views;
-    }
-  };
-
-  const formatLikes = (likes) => {
-    if (likes >= 1e12) {
-      return `${(likes / 1e12).toFixed(2)}T`;
-    } else if (likes >= 1e9) {
-      return `${(likes / 1e9).toFixed(2)}B`;
-    } else if (likes >= 1e6) {
-      return `${(likes / 1e6).toFixed(2)}M`;
-    } else if (likes >= 1e3) {
-      return `${(likes / 1e3).toFixed(2)}K`;
-    } else {
-      return likes;
+      return stats;
     }
   };
 
@@ -165,19 +153,32 @@ const Dashboard = ({ setIsLoggedIn }) => {
                 <div className="item-metrics">
                   <p className="video-title">{video.snippet.title}</p>
                   <p className="video-stats">
-                    Views: {formatViews(video.statistics.viewCount)}
+                    Views: {formatStats(video.statistics.viewCount)}
                   </p>
                   <p className="video-stats">
-                    Likes: {formatLikes(video.statistics.likeCount)}
+                    Likes: {formatStats(video.statistics.likeCount)}
                   </p>
-                  <button
-                    onClick={() => {
-                      handleVideoSelect(video);
-                    }}
-                    className="video-select"
-                  >
-                    Select
-                  </button>
+                  <p className="video-stats">
+                    Comments: {formatStats(video.statistics.commentCount)}
+                  </p>
+                  <div className="select-show-container">
+                    <button
+                      onClick={() => {
+                        handleVideoSelect(video);
+                      }}
+                      className="video-select"
+                    >
+                      <div className="icon-div">
+                        <FontAwesomeIcon icon={faYoutube} className="fa-2x" />
+                      </div>
+                      <div className="select-div">Select</div>
+                    </button>
+                    <FontAwesomeIcon
+                      icon={faCircleCheck}
+                      className="fa-2x check-icon"
+                      title="Content is Optimized!"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -204,7 +205,7 @@ const Dashboard = ({ setIsLoggedIn }) => {
         }
 
         {
-          <button className="logout-button" onClick={handleLogout}>
+          <button className="default-button" onClick={handleLogout}>
             Logout
           </button>
         }
