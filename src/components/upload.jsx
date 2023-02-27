@@ -51,7 +51,7 @@ const Upload = (props) => {
               className="delete-button"
               onClick={() => props.handleDelete(props.thumbnailIDs[0])}
             >
-              Remove Files
+              Remove File
             </button>
           ) : (
             <div className="alternateImage1">
@@ -83,7 +83,7 @@ const Upload = (props) => {
               className="delete-button"
               onClick={() => props.handleDelete(props.thumbnailIDs[1])}
             >
-              X
+              Remove File
             </button>
           ) : (
             <div className="alternateImage1">
@@ -99,7 +99,12 @@ const Upload = (props) => {
       </div>
 
       <div className="optimize-buttons">
-        <button onClick={props.handleSubmit}>Submit</button>
+        <button className="default-button" onClick={props.goToDashboard}>
+          Dashboard
+        </button>
+        <button className="default-button" onClick={props.handleSubmit}>
+          Submit
+        </button>
       </div>
     </div>
   );

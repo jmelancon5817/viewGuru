@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const Dashboard = ({ setIsLoggedIn }) => {
+const Dashboard = ({ setIsLoggedIn, processedVideos }) => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,6 +16,7 @@ const Dashboard = ({ setIsLoggedIn }) => {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState([]);
+
   const itemsPerPage = 5;
   const navigate = useNavigate();
 
@@ -173,11 +174,15 @@ const Dashboard = ({ setIsLoggedIn }) => {
                       </div>
                       <div className="select-div">Select</div>
                     </button>
-                    <FontAwesomeIcon
-                      icon={faCircleCheck}
-                      className="fa-2x check-icon"
-                      title="Content is Optimized!"
-                    />
+                    {processedVideos.includes(video.id) ? (
+                      <FontAwesomeIcon
+                        icon={faCircleCheck}
+                        className="fa-2x check-icon"
+                        title="Content is Optimized!"
+                      />
+                    ) : (
+                      <div></div>
+                    )}
                   </div>
                 </div>
               </div>

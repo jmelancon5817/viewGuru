@@ -38,7 +38,7 @@ const Process = (props) => {
         <div>
           <p className="alternate-heading">Alternate Thumbnail 1:</p>
           <div className="optimize-gallery">
-            <div className="alternateImage1">
+            <div className="alternateImage">
               <img src={props.alternateThumbnails[0]} alt="alternate1" />
             </div>
           </div>
@@ -47,7 +47,7 @@ const Process = (props) => {
         <div>
           <p className="alternate-heading">Alternate Thumbnail 2:</p>
           <div className="optimize-gallery">
-            <div className="alternateImage1">
+            <div className="alternateImage">
               <img src={props.alternateThumbnails[1]} alt="alternate2" />
             </div>
           </div>
@@ -55,7 +55,12 @@ const Process = (props) => {
       </div>
 
       <div className="optimize-buttons">
-        <button onClick={props.handleCancel}>Cancel</button>
+        <button className="default-button" onClick={props.goToDashboard}>
+          Dashboard
+        </button>
+        <button className="default-button" onClick={props.handleCancel}>
+          Cancel
+        </button>
       </div>
     </div>
   );

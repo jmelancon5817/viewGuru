@@ -3,9 +3,11 @@ import { useLocation } from "react-router-dom";
 import Process from "./process";
 import Upload from "./upload";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Optimize = () => {
+const Optimize = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedVideo = location.state.selectedVideo;
   const [currentThumbnail, setCurrentThumbnail] = useState(
     selectedVideo.snippet.thumbnails.medium.url
@@ -61,7 +63,10 @@ const Optimize = () => {
 
       setThumbnailIDs(thumbnailIds);
 
+      props.setProcessedVideos([...props.processedVideos, selectedVideo.id]);
+
       console.log("Thumbnails uploaded successfully!");
+      alert("Thumbnails uploaded successfully!");
     } catch (err) {
       console.log(err);
     }
@@ -74,6 +79,7 @@ const Optimize = () => {
       await axios.delete(`/api/users/${userId}/thumbnails/${thumbnailId}`);
 
       console.log("Thumbnail deleted successfully!");
+      alert("Thumbnail deleted successfully!");
     } catch (err) {
       console.log(err);
     }
@@ -82,6 +88,10 @@ const Optimize = () => {
   const handleCancel = () => {
     // Stop Optimization
     setIsRunning(false);
+  };
+
+  const goToDashboard = () => {
+    navigate("/dashboard");
   };
 
   useEffect(() => {
@@ -97,6 +107,7 @@ const Optimize = () => {
         <Process
           handleCancel={handleCancel}
           alternateThumbnails={alternateThumbnails}
+          goToDashboard={goToDashboard}
         />
       ) : (
         <Upload
@@ -104,6 +115,8 @@ const Optimize = () => {
           handleChange={handleChange}
           handleDelete={handleDelete}
           thumbnailIDs={thumbnailIDs}
+          alternateThumbnails={alternateThumbnails}
+          goToDashboard={goToDashboard}
         />
       )}
     </div>
