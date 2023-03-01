@@ -37,8 +37,13 @@ The upload component allows users to upload alternate thumbnails for the selecte
 
 The process component allows users to initiate optimization. To demonstrate the feature it is currenty set to run every 5 seconds.
 
-![process](public/images/process_.mov)
+![public/images/process_.mov](https://user-images.githubusercontent.com/88739013/222219114-e299547f-e778-47d9-bf6f-abb9cdc1d257.mov)
+
 
 ### Limitations
 
-As part of the current youtube API users are not able to manipulate content thumbnails via a third party. This project was created for educational purposed only and no feature to push the modified thumbnails to youtube has been implemented.
+As part of the current youtube API authorizations, users are not able to manipulate content thumbnails via a third party. This project was created for educational purposed only and no feature to push the modified thumbnails to youtube has been implemented.
+
+
+
+
