@@ -7,6 +7,7 @@ import Optimize from "./components/optimize";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [processedVideos, setProcessedVideos] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -23,9 +24,22 @@ function App() {
           />
           <Route
             path="dashboard"
-            element={<Dashboard setIsLoggedIn={setIsLoggedIn} />}
+            element={
+              <Dashboard
+                setIsLoggedIn={setIsLoggedIn}
+                processedVideos={processedVideos}
+              />
+            }
           />
-          <Route path="optimize" element={<Optimize />} />
+          <Route
+            path="optimize"
+            element={
+              <Optimize
+                setProcessedVideos={setProcessedVideos}
+                processedVideos={processedVideos}
+              />
+            }
+          />
         </Routes>
       </div>
     </Router>
