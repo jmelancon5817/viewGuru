@@ -21,7 +21,7 @@ const Dashboard = ({ setIsLoggedIn, processedVideos }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch the top 10 trending videos from YouTubes's API
+    // Fetch the top 20 trending videos from YouTubes's API
     axios
       .get("https://www.googleapis.com/youtube/v3/videos", {
         params: {
