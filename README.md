@@ -18,6 +18,8 @@ The landing page allows users to sign in via Google
 
 The dashboard component shows you the list of all uploaded videos and their stats and optimization status. You can also use the search bar to find a specific video, as well as the sort feature.
 
+- Currently displaying the 20 most popular videos at the time of development.
+
 ![dashboard](public/images/dashboard.png)
 
 Videos that have been processed will be denoted with the check icon.
@@ -38,4 +40,4 @@ The process component allows users to initiate optimization. To demonstrate the 
 
 ### Limitations
 
-As part of the current youtube API users are not able to manipulate content thumbnails via a third party. This project was created for educational purposed only and no feature to push the modified thumbnails to youtube has been implemented. Also in place of displaying the users youtube content the app is currently fetching the 20 most popular videos at the time of development.
+As part of the current youtube API users are not able to manipulate content thumbnails via a third party. This project was created for educational purposed only and no feature to push the modified thumbnails to youtube has been implemented.
