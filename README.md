@@ -20,10 +20,9 @@ The dashboard component shows you the list of all uploaded videos and their stat
 
 - Currently displaying the 20 most popular videos at the time of development.
 
+- Videos that have been processed will be denoted with the check icon.
+
 ![dashboard](public/images/dashboard.png)
-
-Videos that have been processed will be denoted with the check icon.
-
 ![optimized](public/images/selected.png)
 
 #### Upload:
