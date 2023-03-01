@@ -1,71 +1,41 @@
-# Getting Started with Create React App
+## Shift App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Content optimization tool that allows users to upload and rotate alternate thumbnails based on video engagement. This app is built with React and Node.js, utilizing the google login API and MongoDB.
 
-## Available Scripts
+## Design
 
-In the project directory, you can run:
+The Shift app consists of multiple components that allow you to upload, optimize, and manage your videos:
 
-### `npm start`
+#### Landing Page:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The landing page allows users to sign in via Google
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![landingPage](public/images/landingPage.png)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Dashboard:
 
-### `npm run build`
+The dashboard component shows you the list of all uploaded videos and their stats and optimization status. You can also use the search bar to find a specific video, as well as the sort feature.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![dashboard](public/images/dashboard.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Videos that have been processed will be denoted with the check icon.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![optimized](public/images/selected.png)
 
-### `npm run eject`
+#### Upload:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The upload component allows users to upload alternate thumbnails for the selected video.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![upload](public/images/optimize.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Process:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The process component allows users to initiate optimization. To demonstrate the feature it is currenty set to run every 5 seconds.
 
-## Learn More
+![process](public/images/process_.mov)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Limitations
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# viewGuru
+As part of the current youtube API users are not able to manipulate content thumbnails via a third party. This project was created for educational purposed only and no feature to push the modified thumbnails to youtube has been implemented. Also in place of displaying the users youtube content the app is currently fetching the 20 most popular videos at the time of development.
