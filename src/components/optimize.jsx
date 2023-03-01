@@ -18,6 +18,7 @@ const Optimize = (props) => {
   const [isRunning, setIsRunning] = useState(false);
 
   const [thumbnailIDs, setThumbnailIDs] = useState([]);
+  const allThumbnails = [currentThumbnail, ...alternateThumbnails];
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user.id;
@@ -108,6 +109,7 @@ const Optimize = (props) => {
           handleCancel={handleCancel}
           alternateThumbnails={alternateThumbnails}
           goToDashboard={goToDashboard}
+          allThumbnails={allThumbnails}
         />
       ) : (
         <Upload

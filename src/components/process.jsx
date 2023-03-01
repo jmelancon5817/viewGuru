@@ -7,20 +7,25 @@ import { faSync } from "@fortawesome/free-solid-svg-icons";
 const Process = (props) => {
   const location = useLocation();
   const selectedVideo = location.state.selectedVideo;
-  const [currentThumbnail, setCurrentThumbnail] = useState(
-    selectedVideo.snippet.thumbnails.medium.url
-  );
+  const [currentThumbnail, setCurrentThumbnail] = useState([]);
   const [alternateThumbnails, setAlternateThumbnails] = useState([]);
-  const [updateThumbnail, setUpdateThumbnail] = useState(false);
+  const [updateThumbnail, setUpdateThumbnail] = useState([]);
 
   const [isRunning, setIsRunning] = useState(false);
+  const [currentThumbnailIndex, setCurrentThumbnailIndex] = useState(0);
+
+  // Implement change thumbnail function based on views/time accessed via Youtube API for selected video
 
   useEffect(() => {
-    if (updateThumbnail) {
-      // Use the YouTube API to track view count of the video over time
-      // and determine which alternate thumbnail to use
-    }
-  }, [updateThumbnail]);
+    const intervalId = setInterval(() => {
+      setCurrentThumbnailIndex((index) => (index + 1) % 3); // toggle between 0, 1, and 2
+    }, 5000); // run every 5 seconds
+    console.log(intervalId);
+    console.log(props.allThumbnails);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // render the component with the updated currentThumbnail state
 
   return (
     <div className="optimize-container">
@@ -28,7 +33,7 @@ const Process = (props) => {
       <div className="current">
         <p>Current Thumbnail:</p>
         <img
-          src={currentThumbnail}
+          src={props.allThumbnails[(currentThumbnailIndex + 3) % 3]}
           alt={selectedVideo.snippet.title}
           className="current-thumbnail"
         />
@@ -39,7 +44,10 @@ const Process = (props) => {
           <p className="alternate-heading">Alternate Thumbnail 1:</p>
           <div className="optimize-gallery">
             <div className="alternateImage">
-              <img src={props.alternateThumbnails[0]} alt="alternate1" />
+              <img
+                src={props.allThumbnails[(currentThumbnailIndex + 1) % 3]}
+                alt="alternate1"
+              />
             </div>
           </div>
         </div>
@@ -48,7 +56,10 @@ const Process = (props) => {
           <p className="alternate-heading">Alternate Thumbnail 2:</p>
           <div className="optimize-gallery">
             <div className="alternateImage">
-              <img src={props.alternateThumbnails[1]} alt="alternate2" />
+              <img
+                src={props.allThumbnails[(currentThumbnailIndex + 2) % 3]}
+                alt="alternate2"
+              />
             </div>
           </div>
         </div>
