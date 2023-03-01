@@ -2,6 +2,8 @@
 
 Content optimization tool that allows users to upload and rotate alternate thumbnails based on video engagement. This app is built with React and Node.js, utilizing the google login API and MongoDB.
 
+Backend can be found [here](https://github.com/jmelancon5817/shift-api).
+
 ## Design
 
 The Shift app consists of multiple components that allow you to upload, optimize, and manage your videos:
